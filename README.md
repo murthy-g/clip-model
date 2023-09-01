@@ -1,4 +1,13 @@
-the technology that can generate or retrieve images based on textual descriptions. This is often referred to as "text-to-image synthesis" or "image generation from text." There are several AI algorithms and models that have been developed for this purpose. As of my last knowledge update in September 2021, here are a few notable approaches:
+
+========================================================================
+
+I am choosing CLIP model which is right for our use case
+
+
+===========================================================================
+
+The technology that can generate or retrieve images based on textual descriptions. This is often referred to as "text-to-image synthesis" or "image generation from text." There are several AI algorithms and models that have been developed for this purpose. As of my last knowledge update in September 2021, here are a few notable approaches:
+
 1.	Generative Adversarial Networks (GANs): GANs are a popular class of models for image generation. One specific variant is the "Conditional GAN" or "cGAN," which can take textual descriptions as conditional input to generate corresponding images. By training the generator and discriminator networks in a game-theoretic manner, GANs have shown promising results in generating images from text.
 2.	AttnGAN: Attention Generative Adversarial Networks (AttnGAN) is a model that incorporates attention mechanisms to focus on different parts of the text during image generation. This allows the model to generate images with fine-grained details that match the textual descriptions more effectively.
 3.	StackGAN: StackGAN is a two-stage GAN model that generates images in a stepwise manner. The first stage generates a low-resolution image from the text description, and the second stage refines this image to a higher resolution, producing more detailed results.
@@ -8,9 +17,9 @@ the technology that can generate or retrieve images based on textual description
 It's important to note that the field of AI evolves rapidly, and there might be newer algorithms or models developed since my last update. When implementing such systems, you'll need to gather a dataset of text-image pairs for training and choose an appropriate algorithm based on your requirements.
 Keep in mind that generating high-quality images from text descriptions is still a challenging task, and the results can vary. Additionally, always ensure that you have the necessary rights and permissions for the images you generate or retrieve, as many images are subject to copyright restrictions.
 
-
-
-![image](https://github.com/murthy-g/clip-model/assets/31370582/2d6acaa6-b2dc-4490-872e-a6e88b7ec7af)
-
+========================================================================
 
 I am choosing CLIP model which is right for our use case
+
+
+===========================================================================
