@@ -6,7 +6,7 @@ I am choosing CLIP model which is right for our use case
 
 ===========================================================================
 
-The technology that can generate or retrieve images based on textual descriptions. This is often referred to as "text-to-image synthesis" or "image generation from text." There are several AI algorithms and models that have been developed for this purpose. As of my last knowledge update in September 2021, here are a few notable approaches:
+The technology that can generate or retrieve images based on textual descriptions. This is often referred to as "text-to-image synthesis" or "image generation from text." There are several AI algorithms and models that have been developed for this purpose.  here are a few notable approaches:
 
 1.	Generative Adversarial Networks (GANs): GANs are a popular class of models for image generation. One specific variant is the "Conditional GAN" or "cGAN," which can take textual descriptions as conditional input to generate corresponding images. By training the generator and discriminator networks in a game-theoretic manner, GANs have shown promising results in generating images from text.
 2.	AttnGAN: Attention Generative Adversarial Networks (AttnGAN) is a model that incorporates attention mechanisms to focus on different parts of the text during image generation. This allows the model to generate images with fine-grained details that match the textual descriptions more effectively.
