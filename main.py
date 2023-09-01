@@ -3,29 +3,12 @@ from transformers import CLIPProcessor, CLIPTokenizer, CLIPModel
 from PIL import Image
 import requests
 from io import BytesIO
+import random
 
 # Load CLIP model and tokenizer
 model_name = "openai/clip-vit-base-patch16"
 tokenizer = CLIPTokenizer.from_pretrained(model_name)
 model = CLIPModel.from_pretrained(model_name)
-
-# Text input
-text_input = [
-    'a leaf in gray color',
-    'a leaf in orange color',
-    'a leaf in red color',
-    'a leaf in yellow color',
-    'a happy hopper',
-    'a cool hopper',
-    'a seed',
-    'a seedling',
-    'a sapling',
-    'a tree',
-    'a green color leaf',
-    'a red color leaf',
-    'a yellow color leaf',
-    'a grey color leaf'
-]
 
 # Image URLs
 image_urls = [
@@ -44,35 +27,56 @@ image_urls = [
 # Initialize the CLIP processor
 processor = CLIPProcessor.from_pretrained(model_name)
 
+# Text descriptions
+text_descriptions = [
+    'a leaf in gray color',
+    'a leaf in orange color',
+    'a leaf in red color',
+    'a leaf in yellow color',
+    'a happy hopper',
+    'a cool hopper',
+    'a seed',
+    'a seedling',
+    'a sapling',
+    'a tree',
+    'a green color leaf',
+    'a red color leaf',
+    'a yellow color leaf',
+    'a grey color leaf'
+]
+
+# Shuffle the text descriptions randomly
+random.shuffle(text_descriptions)
+
 # Prepare a list to store similarity scores
 similarities = []
 
-# Process each text and image pair
-for text in text_input:
-    text_inputs = processor(text, return_tensors="pt")
-    similarities_for_text = []
+# Process each image
+for i, image_url in enumerate(image_urls):
+    response = requests.get(image_url)
+    image = Image.open(BytesIO(response.content))
+    image_input = processor(images=image, return_tensors="pt")
 
-    for image_url in image_urls:
-        response = requests.get(image_url)
-        image = Image.open(BytesIO(response.content))
-        image_input = processor(images=image, return_tensors="pt")
+    # Assign a unique text description to each image
+    text_input = processor(text=text_descriptions[i], return_tensors="pt")
 
-        with torch.no_grad():
-            outputs = model(**image_input, **text_inputs)
+    # Forward pass through the model
+    with torch.no_grad():
+        outputs = model(**image_input, **text_input)
 
-        similarity = (
-            100
-            * torch.nn.functional.cosine_similarity(
-                outputs.logits_per_image, outputs.logits_per_text
-            )
-        ).item()
-        
-        similarities_for_text.append(similarity)
-    
-    similarities.append(similarities_for_text)
+    # Calculate image-text similarity scores
+    image_text_similarity = (
+        100
+        * torch.nn.functional.cosine_similarity(
+            outputs.logits_per_image, outputs.logits_per_text
+        )
+    ).tolist()
 
-# Print similarity scores for each text-image pair
-for i, text in enumerate(text_input):
-    for j, image_url in enumerate(image_urls):
-        similarity = similarities[i][j]
-        print(f"Similarity between '{text}' and '{image_url}': {similarity:.2f}")
+    similarities.append(image_text_similarity)
+
+# Print similarity scores for each image-text pair
+for i, image_url in enumerate(image_urls):
+    print(f"Image URL: {image_url}")
+    text_input = text_descriptions[i]
+    print(f"Similarity between '{text_input}' and '{image_url}': {similarities[i][0]:.2f}")
+    print()
